@@ -1,59 +1,57 @@
 import fs from 'fs'
 import inquirer from 'inquirer'
 
+let currentDate = new Date
+
 let createProd = (prodName) => {
+
     console.log('')
     console.log('adding product to google drive...')
 
+    prodName = prodName.split(' ').join('-').toLowerCase()
     let newDir = 'G:/My\ Drive/product/' + prodName
-    fs.mkdir(newDir, (err) => {
-        if(err){
-            let currentDate = new Date
-            let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
-            fs.appendFileSync('./error-log.txt', JSON.stringify(errObj) + '\n\n')
-            console.log('')
-            console.log('failed to create product directory')
-            console.log('')
-            console.log('check product name and error log')
-            console.log('')
-        }else{
-            console.log(`created "${prodName}" directory`)
-        }
-    })
-
-    fs.mkdir(`G:/My\ Drive/product/${prodName}/documents`, (err) => {
-        if(err){
-            let currentDate = new Date
-            let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
-            fs.appendFileSync('./error-log.txt', JSON.stringify(errObj) + '\n\n')
-            console.log('')
-            console.log('failed to create product document directory')
-            console.log('')
-            console.log('check error log')
-            console.log('')
-        }else{
-            console.log(`created product documents directory`)
-        }
-    })
-
-    fs.copyFile('G:/My\ Drive/templates/cost-analysis.xlsx', `G:/My\ Drive/product/${prodName}/cost-analysis.xlsx`, (err) => {
-        if(err){
-            let currentDate = new Date
-            let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
+    // create product folder in google drive
+    try{
+        fs.mkdirSync(newDir)
+        console.log(`created "${prodName}" directory`)
+    }
+    catch (err) {
+        let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
+        fs.appendFileSync('./error-log.txt', JSON.stringify(errObj) + '\n\n')
+        console.log('')
+        console.log('failed to create product directory')
+        console.log('')
+        console.log('check product name and error log')
+        console.log('')
+    }
+    // create documents subfolder
+    try{
+        fs.mkdirSync(`G:/My\ Drive/product/${prodName}/documents`)
+        console.log('created product documents directory')
+    }
+    catch (err) {
+        let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
+        fs.appendFileSync('./error-log.txt', JSON.stringify(errObj) + '\n\n')
+        console.log('')
+        console.log('failed to create product document directory')
+        console.log('')
+        console.log('check error log')
+        console.log('')
+    }
+    // create cost-analysis.xlsx from template
+    try{
+        fs.copyFileSync('G:/My\ Drive/templates/cost-analysis.xlsx', `G:/My\ Drive/product/${prodName}/cost-analysis.xlsx`)
+        console.log('copied cost analysis template to product directory')
+    }
+    catch (err) {
+        let errObj = {date: currentDate.toLocaleString('en-US'), error: err}
             fs.appendFileSync('./error-log.txt', JSON.stringify(errObj) + '\n\n')
             console.log('')
             console.log('failed to copy cost analysis template to product directory')
             console.log('')
             console.log('check error log')
             console.log('')
-        }else{
-            console.log(`copied cost analysis template to product directory`)
-        }
-    })
-            // create product folder in g drive
-            // create cost-analysis.xlsx from template
-            // create documents folder
-            // create user-instruction from template
+    }
 }
 
 let prodNameConfirm = (name) => {

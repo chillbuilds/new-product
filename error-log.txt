@@ -1,0 +1,4 @@
+{"date":"3/23/2024, 11:24:32 AM","error":{"errno":-4058,"code":"ENOENT","syscall":"mkdir","path":"G:\\My Drive\\product\\testy-prod\\documents"}}
+
+{"date":"3/23/2024, 11:24:32 AM","error":{"errno":-4058,"code":"ENOENT","syscall":"copyfile","path":"G:\\My Drive\\templates\\cost-analysis.xlsx","dest":"G:\\My Drive\\product\\testy-prod\\cost-analysis.xlsx"}}
+
